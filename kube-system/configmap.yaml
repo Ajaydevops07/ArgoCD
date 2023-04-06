@@ -1,0 +1,290 @@
+apiVersion: v1
+items:
+- apiVersion: v1
+  data:
+    Corefile: |
+      .:53 {
+          errors
+          health {
+             lameduck 5s
+          }
+          ready
+          kubernetes cluster.local in-addr.arpa ip6.arpa {
+             pods insecure
+             fallthrough in-addr.arpa ip6.arpa
+             ttl 30
+          }
+          prometheus :9153
+          forward . /etc/resolv.conf {
+             max_concurrent 1000
+          }
+          cache 30
+          loop
+          reload
+          loadbalance
+      }
+  kind: ConfigMap
+  metadata:
+    creationTimestamp: "2023-03-23T14:09:15Z"
+    name: coredns
+    namespace: kube-system
+    resourceVersion: "223"
+    uid: 65b306a4-3448-4e4c-b32f-f0a507a521a8
+- apiVersion: v1
+  data:
+    client-ca-file: |
+      -----BEGIN CERTIFICATE-----
+      MIIC/jCCAeagAwIBAgIBADANBgkqhkiG9w0BAQsFADAVMRMwEQYDVQQDEwprdWJl
+      cm5ldGVzMB4XDTIzMDMyMzE0MDg1M1oXDTMzMDMyMDE0MDg1M1owFTETMBEGA1UE
+      AxMKa3ViZXJuZXRlczCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAMAT
+      55CO5FvTpW5+clXoE6bS+QTiI405fYUMWyJREvoJU65csxSdH1KvqfQfQek/7ndF
+      X4G2cfPRsivwaeYETk5SsRVbTR0uc0nzGadiIyzVhtqsyqFyvtS36stq9L77JYG9
+      BMTs3nggsHxxrJrQAXHQ5XfpVz72x3YUodVW1IyVCNyJZgR0ovGk1uePS0xFMaYz
+      ZIPRblYm6F0KIjzC5ZQsEER3mF5+rmf8PXBM7sU7SorhbJYt4buFCsoKknGniIeJ
+      GA6syARm7Dfu8CrsDmP5ZnM9l4Kc4oygpcIm3pkHQcu8oueDFtv+ZOc0T7G2zMSY
+      MkLHf1o8kJ+ZBe4C808CAwEAAaNZMFcwDgYDVR0PAQH/BAQDAgKkMA8GA1UdEwEB
+      /wQFMAMBAf8wHQYDVR0OBBYEFF+DOGjxRraecpI6scYGDTRayLuuMBUGA1UdEQQO
+      MAyCCmt1YmVybmV0ZXMwDQYJKoZIhvcNAQELBQADggEBAIVu4r2A/GthiDWOzWT8
+      KlV+huGOq4KH8n59sZ1DfXNLpEfFOn4pCChzIHc5s1vKYJYtiiHM8oMLYSLvQIS5
+      UnqDjpJ8wXKrfh0kJt3bpVHnuzx/SatVAgL9Us/vb4/xLo1JR4NTDGqryrCXUleA
+      4v3m06IHo75dIz4Q5/CLUjFbFWeV8wSudGmazHQso/Z2C4Blr9+NEy7Uy0A8Ez9J
+      fq4bIdYGxfePt/I6+yWSjE1tCxHyXCMgpBmx+ssIGyfOjwyylcajXeGg2KawrVCx
+      SHQ8v0tny02jRJi7QV78cWF/48ayL0xLD4LnVNkThYBzQzqcgDTj+U/3/TnHGKo+
+      vZU=
+      -----END CERTIFICATE-----
+    requestheader-allowed-names: '["front-proxy-client"]'
+    requestheader-client-ca-file: |
+      -----BEGIN CERTIFICATE-----
+      MIIDCjCCAfKgAwIBAgIBADANBgkqhkiG9w0BAQsFADAZMRcwFQYDVQQDEw5mcm9u
+      dC1wcm94eS1jYTAeFw0yMzAzMjMxNDA4NTRaFw0zMzAzMjAxNDA4NTRaMBkxFzAV
+      BgNVBAMTDmZyb250LXByb3h5LWNhMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIB
+      CgKCAQEAxARIUnSHIRvP58JJWWv2B2cNGRC5D/EEiBel9zy0xO0Njc/dWX/bqjjF
+      tALnmW7fSLe2uexCBt75sxebgx9NeoiTNPRd2Rp338DscSPOPIua5IPkJr5vtm1i
+      Jxe/YEvuMhvXAfrq7fLBhi+iM0RnVEkzq26DajiRZGTUbdsJOPmEdKaZ5lBIs0qF
+      UC5fUvp9MAPS9u9SJN4nRMvACHrQuaYxtrwhX7qS0xl39sXGIuieHsiUWTJys11m
+      EiyU6UxATqM3HqDhFbY+OWvW+6fbqYJs7Y3VYgcSlilcqMo65U0tQ+7em2DbSOQQ
+      zUVEAkM7STQRz2TeDRPLV6OWoJj6mQIDAQABo10wWzAOBgNVHQ8BAf8EBAMCAqQw
+      DwYDVR0TAQH/BAUwAwEB/zAdBgNVHQ4EFgQUn7jceQzUVUk//Qm+9WSaZqb1374w
+      GQYDVR0RBBIwEIIOZnJvbnQtcHJveHktY2EwDQYJKoZIhvcNAQELBQADggEBAAcS
+      h02PTKpU1N0pfTqtyKsTZ5IYIn/GNF+5tHDZo9eEOkUZyViu5B91Yqa37TOlEgx7
+      ikFVIJNGUCNP+ommlFYgZ2DwvYaiENk14EJ972ILMWwQKKn032cWCFMXY+2nKB+K
+      eStyzBm02cgjBWOkyTalAbemta0nf03sbaqp5PK5zZvCMLPYLNVw/7OyTXOdV0Ym
+      T95qQNyaTW4ssCT/zsqJqGTrfFdYgMnjtyxSsA5QB1bav78vAyBnu1cDtHR7mk3S
+      oA6pF58DhpYS0tjeJqmU9X3vh5Y/Vmx/PNoN9iFBcyWu22iXyZC7tR6ELK7ccrQD
+      qXCRXDyIi7wHigcHMlQ=
+      -----END CERTIFICATE-----
+    requestheader-extra-headers-prefix: '["X-Remote-Extra-"]'
+    requestheader-group-headers: '["X-Remote-Group"]'
+    requestheader-username-headers: '["X-Remote-User"]'
+  kind: ConfigMap
+  metadata:
+    creationTimestamp: "2023-03-23T14:09:11Z"
+    name: extension-apiserver-authentication
+    namespace: kube-system
+    resourceVersion: "34"
+    uid: 98cb12eb-3ecb-4406-a422-f4f2a9d9ede4
+- apiVersion: v1
+  data:
+    config.conf: |-
+      apiVersion: kubeproxy.config.k8s.io/v1alpha1
+      bindAddress: 0.0.0.0
+      bindAddressHardFail: false
+      clientConnection:
+        acceptContentTypes: ""
+        burst: 0
+        contentType: ""
+        kubeconfig: /var/lib/kube-proxy/kubeconfig.conf
+        qps: 0
+      clusterCIDR: ""
+      configSyncPeriod: 0s
+      conntrack:
+        maxPerCore: null
+        min: null
+        tcpCloseWaitTimeout: null
+        tcpEstablishedTimeout: null
+      detectLocal:
+        bridgeInterface: ""
+        interfaceNamePrefix: ""
+      detectLocalMode: ""
+      enableProfiling: false
+      healthzBindAddress: ""
+      hostnameOverride: ""
+      iptables:
+        masqueradeAll: false
+        masqueradeBit: null
+        minSyncPeriod: 0s
+        syncPeriod: 0s
+      ipvs:
+        excludeCIDRs: null
+        minSyncPeriod: 0s
+        scheduler: ""
+        strictARP: false
+        syncPeriod: 0s
+        tcpFinTimeout: 0s
+        tcpTimeout: 0s
+        udpTimeout: 0s
+      kind: KubeProxyConfiguration
+      metricsBindAddress: ""
+      mode: ""
+      nodePortAddresses: null
+      oomScoreAdj: null
+      portRange: ""
+      showHiddenMetricsForVersion: ""
+      udpIdleTimeout: 0s
+      winkernel:
+        enableDSR: false
+        forwardHealthCheckVip: false
+        networkName: ""
+        rootHnsEndpointName: ""
+        sourceVip: ""
+    kubeconfig.conf: |-
+      apiVersion: v1
+      kind: Config
+      clusters:
+      - cluster:
+          certificate-authority: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+          server: https://10.0.2.15:6443
+        name: default
+      contexts:
+      - context:
+          cluster: default
+          namespace: default
+          user: default
+        name: default
+      current-context: default
+      users:
+      - name: default
+        user:
+          tokenFile: /var/run/secrets/kubernetes.io/serviceaccount/token
+  kind: ConfigMap
+  metadata:
+    annotations:
+      kubeadm.kubernetes.io/component-config.hash: sha256:3104b5a0f23761f753f0de3df9d3778918d8902c2a613368c44c91d8c2ff2868
+    creationTimestamp: "2023-03-23T14:09:15Z"
+    labels:
+      app: kube-proxy
+    name: kube-proxy
+    namespace: kube-system
+    resourceVersion: "230"
+    uid: 50ccd61a-0979-4100-b572-e0f23147890f
+- apiVersion: v1
+  data:
+    ca.crt: |
+      -----BEGIN CERTIFICATE-----
+      MIIC/jCCAeagAwIBAgIBADANBgkqhkiG9w0BAQsFADAVMRMwEQYDVQQDEwprdWJl
+      cm5ldGVzMB4XDTIzMDMyMzE0MDg1M1oXDTMzMDMyMDE0MDg1M1owFTETMBEGA1UE
+      AxMKa3ViZXJuZXRlczCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAMAT
+      55CO5FvTpW5+clXoE6bS+QTiI405fYUMWyJREvoJU65csxSdH1KvqfQfQek/7ndF
+      X4G2cfPRsivwaeYETk5SsRVbTR0uc0nzGadiIyzVhtqsyqFyvtS36stq9L77JYG9
+      BMTs3nggsHxxrJrQAXHQ5XfpVz72x3YUodVW1IyVCNyJZgR0ovGk1uePS0xFMaYz
+      ZIPRblYm6F0KIjzC5ZQsEER3mF5+rmf8PXBM7sU7SorhbJYt4buFCsoKknGniIeJ
+      GA6syARm7Dfu8CrsDmP5ZnM9l4Kc4oygpcIm3pkHQcu8oueDFtv+ZOc0T7G2zMSY
+      MkLHf1o8kJ+ZBe4C808CAwEAAaNZMFcwDgYDVR0PAQH/BAQDAgKkMA8GA1UdEwEB
+      /wQFMAMBAf8wHQYDVR0OBBYEFF+DOGjxRraecpI6scYGDTRayLuuMBUGA1UdEQQO
+      MAyCCmt1YmVybmV0ZXMwDQYJKoZIhvcNAQELBQADggEBAIVu4r2A/GthiDWOzWT8
+      KlV+huGOq4KH8n59sZ1DfXNLpEfFOn4pCChzIHc5s1vKYJYtiiHM8oMLYSLvQIS5
+      UnqDjpJ8wXKrfh0kJt3bpVHnuzx/SatVAgL9Us/vb4/xLo1JR4NTDGqryrCXUleA
+      4v3m06IHo75dIz4Q5/CLUjFbFWeV8wSudGmazHQso/Z2C4Blr9+NEy7Uy0A8Ez9J
+      fq4bIdYGxfePt/I6+yWSjE1tCxHyXCMgpBmx+ssIGyfOjwyylcajXeGg2KawrVCx
+      SHQ8v0tny02jRJi7QV78cWF/48ayL0xLD4LnVNkThYBzQzqcgDTj+U/3/TnHGKo+
+      vZU=
+      -----END CERTIFICATE-----
+  kind: ConfigMap
+  metadata:
+    annotations:
+      kubernetes.io/description: Contains a CA bundle that can be used to verify the
+        kube-apiserver when using internal endpoints such as the internal service
+        IP or kubernetes.default.svc. No other usage is guaranteed across distributions
+        of Kubernetes clusters.
+    creationTimestamp: "2023-03-23T14:09:20Z"
+    name: kube-root-ca.crt
+    namespace: kube-system
+    resourceVersion: "318"
+    uid: 48cfb0a8-00e5-476f-b38e-3055388f180f
+- apiVersion: v1
+  data:
+    ClusterConfiguration: |
+      apiServer:
+        extraArgs:
+          authorization-mode: Node,RBAC
+        timeoutForControlPlane: 4m0s
+      apiVersion: kubeadm.k8s.io/v1beta3
+      certificatesDir: /etc/kubernetes/pki
+      clusterName: kubernetes
+      controllerManager: {}
+      dns: {}
+      etcd:
+        local:
+          dataDir: /var/lib/etcd
+      imageRepository: registry.k8s.io
+      kind: ClusterConfiguration
+      kubernetesVersion: v1.25.8
+      networking:
+        dnsDomain: cluster.local
+        serviceSubnet: 10.96.0.0/12
+      scheduler: {}
+  kind: ConfigMap
+  metadata:
+    creationTimestamp: "2023-03-23T14:09:13Z"
+    name: kubeadm-config
+    namespace: kube-system
+    resourceVersion: "199"
+    uid: 2a9da550-b730-478b-aa10-f2efe2c9303f
+- apiVersion: v1
+  data:
+    kubelet: |
+      apiVersion: kubelet.config.k8s.io/v1beta1
+      authentication:
+        anonymous:
+          enabled: false
+        webhook:
+          cacheTTL: 0s
+          enabled: true
+        x509:
+          clientCAFile: /etc/kubernetes/pki/ca.crt
+      authorization:
+        mode: Webhook
+        webhook:
+          cacheAuthorizedTTL: 0s
+          cacheUnauthorizedTTL: 0s
+      cgroupDriver: systemd
+      clusterDNS:
+      - 10.96.0.10
+      clusterDomain: cluster.local
+      cpuManagerReconcilePeriod: 0s
+      evictionPressureTransitionPeriod: 0s
+      fileCheckFrequency: 0s
+      healthzBindAddress: 127.0.0.1
+      healthzPort: 10248
+      httpCheckFrequency: 0s
+      imageMinimumGCAge: 0s
+      kind: KubeletConfiguration
+      logging:
+        flushFrequency: 0
+        options:
+          json:
+            infoBufferSize: "0"
+        verbosity: 0
+      memorySwap: {}
+      nodeStatusReportFrequency: 0s
+      nodeStatusUpdateFrequency: 0s
+      rotateCertificates: true
+      runtimeRequestTimeout: 0s
+      shutdownGracePeriod: 0s
+      shutdownGracePeriodCriticalPods: 0s
+      staticPodPath: /etc/kubernetes/manifests
+      streamingConnectionIdleTimeout: 0s
+      syncFrequency: 0s
+      volumeStatsAggPeriod: 0s
+  kind: ConfigMap
+  metadata:
+    annotations:
+      kubeadm.kubernetes.io/component-config.hash: sha256:53821686a8ddaca8403df63803a726d2ab31b145c7da69ed7b78c45d2e223a18
+    creationTimestamp: "2023-03-23T14:09:13Z"
+    name: kubelet-config
+    namespace: kube-system
+    resourceVersion: "202"
+    uid: 98ce2c55-800b-41f3-9fbc-b85987255d82
+kind: List
+metadata:
+  resourceVersion: ""
